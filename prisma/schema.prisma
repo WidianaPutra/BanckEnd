@@ -14,3 +14,12 @@ model Users {
   password String
   created  DateTime @default(now())
 }
+
+model Comment {
+  id      Int      @id @default(autoincrement())
+  mal_id  String
+  user    String
+  email   String
+  comment String
+  created DateTime @default(now())
+}

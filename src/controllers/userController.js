@@ -7,6 +7,7 @@ export const getUser = async (req, res) => {
   try {
     const getUser = await prisma.users.findUnique({
       where: { email, password },
+      select: { id: true, user: true, email: true, created: true },
     });
     getUser
       ? res.status(200).json({ data: getUser })
@@ -18,7 +19,9 @@ export const getUser = async (req, res) => {
 
 export const getAllUser = async (req, res) => {
   try {
-    const getUser = await prisma.users.findMany();
+    const getUser = await prisma.users.findMany({
+      select: { id: true, user: true, email: true, created: true },
+    });
     res.status(200).json({ data: getUser });
   } catch (error) {
     res.status(400).json({ msg: error });
@@ -30,19 +33,22 @@ export const createUser = async (req, res) => {
   try {
     const createUser = await prisma.users.create({
       data: { user, email, password },
+      select: { id: true, user: true, email: true, created: true },
     });
     res.status(201).json({ data: createUser });
+    console.log({ create: createUser.created });
   } catch (error) {
     res.status(400).json({ msg: error });
   }
 };
 
 export const updateUser = async (req, res) => {
-  const { user, email, password } = req.body;
+  const { user, password } = req.body;
   try {
     const updateUser = await prisma.users.update({
       where: { id: parseInt(req.params.id) },
-      data: { user, email, password },
+      data: { user, password },
+      select: { id: true, user: true, email: true, created: true },
     });
     res.status(201).json({ data: updateUser });
   } catch (error) {
@@ -54,6 +60,7 @@ export const deleteUser = async (req, res) => {
   try {
     const deleteUser = await prisma.users.delete({
       where: { id: parseInt(req.params.id) },
+      select: { id: true, user: true, email: true, created: true },
     });
     res.status(200).json({ data: deleteUser });
   } catch (error) {
