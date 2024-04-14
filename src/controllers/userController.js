@@ -10,10 +10,10 @@ export const getUser = async (req, res) => {
       select: { id: true, user: true, email: true, created: true },
     });
     getUser
-      ? res.status(200).json({ data: getUser })
-      : res.status(404).json({ msg: "Not Found" });
+      ? res.status(200).json({ isLogin: true, data: getUser })
+      : res.status(200).json({ isLogin: false, msg: "Not Found" });
   } catch (error) {
-    res.status(400).json({ msg: error });
+    res.status(200).json({ isLogin: false });
   }
 };
 
@@ -35,10 +35,10 @@ export const createUser = async (req, res) => {
       data: { user, email, password },
       select: { id: true, user: true, email: true, created: true },
     });
-    res.status(201).json({ data: createUser });
+    res.status(201).json({ isLogin: true, data: createUser });
     console.log({ create: createUser.created });
   } catch (error) {
-    res.status(400).json({ msg: error });
+    res.status(200).json({ isLogin: false, err: "email tidak valid" });
   }
 };
 

@@ -31,6 +31,7 @@ export const createComment = async (req, res) => {
     const createComment = await prisma.comment.create({
       data: { mal_id, user, email, comment },
     });
+    console.log(createComment);
     res.status(200).json({ data: createComment });
     console.log({ Method: "Created", time: createComment.created });
   } catch (error) {
